@@ -319,6 +319,33 @@
   .result-actions button.primary{
     background:linear-gradient(180deg,var(--gold-soft),var(--gold)); color:#241a3a; border:none; font-weight:700;
   }
+
+  /* 世界之戰警告彈窗 */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(10,7,18,0.72); backdrop-filter:blur(3px);
+    display:flex; align-items:center; justify-content:center; z-index:100; padding:20px;
+  }
+  .modal-box{
+    max-width:400px; width:100%;
+    background:linear-gradient(180deg,var(--bg-panel),var(--bg-panel-2));
+    border:1px solid var(--gold-soft); border-radius:20px; padding:28px 26px 24px;
+    text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  }
+  .modal-icon{ font-size:34px; margin-bottom:6px; }
+  .modal-title{
+    font-family:"Noto Serif TC",serif; font-weight:900; font-size:18px; color:var(--gold-soft); margin:0 0 12px;
+  }
+  .modal-body{ font-size:13px; color:var(--cream); line-height:1.9; margin:0 0 18px; }
+  .modal-checkbox{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    font-size:12px; color:var(--muted); margin-bottom:20px; cursor:pointer; user-select:none;
+  }
+  .modal-checkbox input{ accent-color:var(--gold); width:14px; height:14px; cursor:pointer; }
+  .modal-confirm{
+    width:100%; padding:12px; border:none; border-radius:999px;
+    background:linear-gradient(180deg,var(--gold-soft),var(--gold)); color:#241a3a;
+    font-family:"Noto Serif TC",serif; font-weight:700; font-size:15px; letter-spacing:0.06em; cursor:pointer;
+  }
 </style>
 </head>
 <body>
@@ -461,6 +488,22 @@
     「族裔背景」為粗略地理分類,僅供遊戲化呈現,無法代表個人真實血統或身分認同。「性別」欄位為模擬隨機值。<br>
     本工具純屬娛樂與人口分布教育示意,不具任何宗教、命理或科學意涵。收藏紀錄僅儲存在你目前使用的瀏覽器中。
   </footer>
+</div>
+
+<div class="modal-overlay" id="battleWarningModal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-icon">⚠️</div>
+    <h3 class="modal-title">溫馨提醒</h3>
+    <p class="modal-body">
+      「世界之戰」純屬遊戲娛樂內容。<br>
+      卡片的攻擊力、血量等數值,只是依照人口規模與稀有度換算出來的遊戲機制,<br>
+      <b>不代表任何國家真實的國力、政治立場或優劣評價</b>,請以輕鬆心情遊玩。
+    </p>
+    <label class="modal-checkbox">
+      <input type="checkbox" id="dontShowWarningAgain"> 我了解了,不要再顯示這個提醒
+    </label>
+    <button class="modal-confirm" id="modalConfirmBtn">開始遊戲 ⚔️</button>
+  </div>
 </div>
 
 <script>
@@ -725,7 +768,10 @@ function activateTab(tab){
 }
 tabSpin.addEventListener('click', ()=>{ activateTab(tabSpin); spinView.style.display=''; });
 tabDex.addEventListener('click', ()=>{ activateTab(tabDex); dexView.style.display=''; renderDex(); });
-tabBattle.addEventListener('click', ()=>{ activateTab(tabBattle); battleView.style.display=''; initBattleView(); });
+tabBattle.addEventListener('click', ()=>{
+  activateTab(tabBattle); battleView.style.display=''; initBattleView();
+  maybeShowBattleWarning();
+});
 
 document.getElementById('dexResetBtn').addEventListener('click', ()=>{
   if (confirm('確定要清空所有收藏紀錄嗎？此動作無法復原。')){
@@ -735,6 +781,22 @@ document.getElementById('dexResetBtn').addEventListener('click', ()=>{
   }
 });
 renderDex();
+
+/* ---------- 世界之戰警告彈窗 ---------- */
+const WARNING_KEY = 'reincarnation_battle_warning_v1';
+const battleWarningModal = document.getElementById('battleWarningModal');
+function maybeShowBattleWarning(){
+  let dismissed = false;
+  try { dismissed = localStorage.getItem(WARNING_KEY) === '1'; } catch(e){}
+  if (!dismissed) battleWarningModal.style.display = 'flex';
+}
+document.getElementById('modalConfirmBtn').addEventListener('click', ()=>{
+  const remember = document.getElementById('dontShowWarningAgain').checked;
+  if (remember){
+    try { localStorage.setItem(WARNING_KEY, '1'); } catch(e){}
+  }
+  battleWarningModal.style.display = 'none';
+});
 
 /* ---------- 世界之戰：PvE 卡牌對戰系統 ---------- */
 const BATTLE_KEY = 'reincarnation_battle_v1';
