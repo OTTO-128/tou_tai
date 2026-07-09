@@ -145,6 +145,180 @@
   .history li span.htier{ font-size:11px; padding:2px 8px; border-radius:999px; }
 
   footer{ margin-top:36px; text-align:center; color:var(--muted); font-size:11px; line-height:1.9; }
+
+  /* 分頁導覽 */
+  .tabs{
+    display:flex; justify-content:center; gap:8px; margin-bottom:8px;
+  }
+  .tab-btn{
+    background:rgba(255,255,255,0.03); border:1px solid var(--line); color:var(--muted);
+    font-family:"Noto Sans TC",sans-serif; font-size:13px; font-weight:500;
+    padding:9px 20px; border-radius:999px; cursor:pointer; transition:all .2s ease;
+  }
+  .tab-btn:hover{ color:var(--cream); border-color:var(--gold-soft); }
+  .tab-btn.active{
+    background:linear-gradient(180deg,var(--gold-soft),var(--gold));
+    color:#241a3a; border-color:transparent; font-weight:700;
+  }
+
+  /* 新卡片徽章 */
+  .new-badge{
+    display:inline-block; margin-left:8px; font-size:11px; font-weight:700;
+    padding:4px 10px; border-radius:999px; letter-spacing:0.05em;
+    background:rgba(233,201,138,0.18); color:var(--gold-soft); border:1px solid var(--gold-soft);
+  }
+  .own-count{ color:var(--muted); font-size:12px; text-align:center; margin:14px 0 0; }
+
+  /* 圖鑑收藏 */
+  .dex-summary{
+    display:flex; align-items:center; gap:20px; max-width:460px; margin:24px auto 0;
+    background:linear-gradient(180deg,var(--bg-panel),var(--bg-panel-2));
+    border:1px solid var(--line); border-radius:20px; padding:22px;
+  }
+  .dex-progress-ring{
+    flex:0 0 auto; width:72px; height:72px; border-radius:50%;
+    border:4px solid var(--line); display:flex; align-items:center; justify-content:center;
+    font-family:"Noto Serif TC",serif; font-weight:900; font-size:15px; color:var(--gold-soft);
+    background:radial-gradient(circle at 35% 30%, var(--bg-panel-2), var(--bg-deep) 75%);
+  }
+  .dex-summary-text{ flex:1; }
+  .dex-count{ margin:0 0 8px; font-size:14px; color:var(--cream); }
+  .dex-count b{ font-family:"Noto Serif TC",serif; font-size:20px; color:var(--gold-soft); }
+  .dex-bar{ height:8px; border-radius:999px; background:rgba(255,255,255,0.06); overflow:hidden; }
+  .dex-bar-fill{ height:100%; background:linear-gradient(90deg,var(--gold-soft),var(--gold)); width:0%; transition:width .6s ease; }
+  .dex-hint{ margin:8px 0 0; font-size:11px; color:var(--muted); line-height:1.6; }
+
+  .dex-tiers{ max-width:460px; margin:20px auto 0; display:flex; flex-direction:column; gap:18px; }
+  .dex-tier-block h3{
+    font-family:"Noto Serif TC",serif; font-size:13px; margin:0 0 8px;
+    letter-spacing:0.1em; display:flex; align-items:center; gap:8px;
+  }
+  .dex-tier-block h3 .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .dex-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(78px,1fr)); gap:8px;
+  }
+  .dex-card{
+    position:relative; border-radius:12px; padding:10px 6px 8px; text-align:center;
+    border:1px solid var(--line); background:rgba(255,255,255,0.03);
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+  }
+  .dex-card.locked{ opacity:0.38; }
+  .dex-card .df{ font-size:22px; }
+  .dex-card .dn{ font-size:10px; color:var(--muted); line-height:1.3; min-height:2.6em; display:flex; align-items:center; }
+  .dex-card.unlocked .dn{ color:var(--cream); }
+  .dex-card .dcount{
+    position:absolute; top:-6px; right:-6px; background:var(--gold); color:#241a3a;
+    font-size:9px; font-weight:700; border-radius:999px; padding:2px 6px;
+  }
+  .dex-actions{ text-align:center; margin:26px 0 0; }
+  .dex-reset{
+    background:transparent; border:1px solid var(--line); color:var(--muted);
+    font-family:"Noto Sans TC",sans-serif; font-size:12px; padding:8px 18px;
+    border-radius:999px; cursor:pointer; transition:all .2s ease;
+  }
+  .dex-reset:hover{ color:#e08a8a; border-color:#e08a8a; }
+
+  /* 世界之戰 PvE 卡牌對戰 */
+  .battle-intro{ text-align:center; color:var(--muted); font-size:12px; line-height:1.8; max-width:480px; margin:0 auto 20px; }
+  .mode-tabs{ display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .mode-btn{
+    background:rgba(255,255,255,0.03); border:1px solid var(--line); color:var(--muted);
+    font-family:"Noto Sans TC",sans-serif; font-size:12px; font-weight:500;
+    padding:8px 16px; border-radius:999px; cursor:pointer; transition:all .2s ease;
+  }
+  .mode-btn:hover{ color:var(--cream); border-color:var(--gold-soft); }
+  .mode-btn.active{
+    background:linear-gradient(180deg,var(--gold-soft),var(--gold)); color:#241a3a;
+    border-color:transparent; font-weight:700;
+  }
+  .e-subtitle{ font-size:11px; color:var(--muted); margin:10px 0 0; line-height:1.6; }
+  .result-desc{ font-size:12px; color:var(--muted); margin:-8px 0 16px; line-height:1.7; }
+  .stage-row{ display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:22px; }
+  .stage-btn{
+    width:52px; height:52px; border-radius:14px; border:1px solid var(--line);
+    background:rgba(255,255,255,0.03); color:var(--muted); font-family:"Noto Serif TC",serif;
+    font-weight:700; font-size:15px; cursor:pointer; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:2px; transition:all .2s ease;
+  }
+  .stage-btn small{ font-size:8px; letter-spacing:0.05em; }
+  .stage-btn.unlocked{ color:var(--cream); border-color:var(--gold-soft); }
+  .stage-btn.selected{ background:linear-gradient(180deg,var(--gold-soft),var(--gold)); color:#241a3a; }
+  .stage-btn.locked{ opacity:0.3; cursor:not-allowed; }
+  .stage-btn.cleared::after{ content:"✓"; position:absolute; }
+
+  .deck-section h2{
+    font-family:"Noto Serif TC",serif; font-size:14px; color:var(--gold-soft);
+    letter-spacing:0.1em; text-align:center; margin:0 0 6px;
+  }
+  .deck-hint{ text-align:center; color:var(--muted); font-size:12px; margin:0 0 14px; }
+  .pick-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(78px,1fr)); gap:8px;
+    max-height:260px; overflow-y:auto; padding:6px; border:1px solid var(--line);
+    border-radius:12px; background:rgba(255,255,255,0.02); margin-bottom:18px;
+  }
+  .pick-card{
+    position:relative; border-radius:12px; padding:10px 6px 8px; text-align:center;
+    border:1px solid var(--line); background:rgba(255,255,255,0.03); cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:4px; transition:all .15s ease;
+  }
+  .pick-card .pf{ font-size:22px; }
+  .pick-card .pn{ font-size:10px; color:var(--muted); min-height:2.6em; display:flex; align-items:center; }
+  .pick-card .ps{ font-size:9px; color:var(--muted); }
+  .pick-card.chosen{ border-color:var(--gold-soft); background:rgba(216,173,99,0.12); }
+  .pick-card.chosen .pn{ color:var(--gold-soft); }
+  .pick-card.chosen::before{
+    content:"✓"; position:absolute; top:4px; right:6px; color:var(--gold-soft); font-weight:700; font-size:11px;
+  }
+
+  .empty-note{ text-align:center; color:var(--muted); font-size:13px; padding:30px 10px; line-height:1.8; }
+
+  .fight-btn{
+    display:block; margin:0 auto 26px; padding:12px 36px;
+    background:linear-gradient(180deg,var(--gold-soft),var(--gold)); color:#241a3a;
+    border:none; border-radius:999px; font-family:"Noto Serif TC",serif; font-weight:700;
+    font-size:15px; letter-spacing:0.08em; cursor:pointer;
+  }
+  .fight-btn:disabled{ opacity:0.4; cursor:not-allowed; }
+
+  .arena{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; max-width:520px; margin:0 auto 18px;
+  }
+  .side-panel{
+    background:linear-gradient(180deg,var(--bg-panel),var(--bg-panel-2));
+    border:1px solid var(--line); border-radius:16px; padding:16px; text-align:center;
+  }
+  .side-panel h4{ margin:0 0 10px; font-size:11px; letter-spacing:0.15em; color:var(--muted); font-weight:500; }
+  .active-flag{ font-size:38px; }
+  .active-name{ font-family:"Noto Serif TC",serif; font-weight:700; font-size:14px; margin:4px 0 8px; }
+  .hp-bar{ height:10px; border-radius:999px; background:rgba(255,255,255,0.08); overflow:hidden; margin-bottom:4px; }
+  .hp-bar-fill{ height:100%; background:linear-gradient(90deg,#5fc7a0,#8fe0b8); transition:width .5s ease; }
+  .hp-bar-fill.low{ background:linear-gradient(90deg,#e0855f,#e8a67e); }
+  .hp-text{ font-size:11px; color:var(--muted); }
+  .squad-icons{ display:flex; justify-content:center; gap:4px; margin-top:10px; }
+  .squad-icons span{ font-size:16px; opacity:1; }
+  .squad-icons span.down{ opacity:0.25; filter:grayscale(1); }
+
+  .battle-log{
+    max-width:520px; margin:0 auto 20px; max-height:180px; overflow-y:auto;
+    background:rgba(0,0,0,0.2); border:1px solid var(--line); border-radius:12px;
+    padding:12px 16px; font-size:12px; color:var(--muted); line-height:2;
+  }
+  .battle-log .lg-hit{ color:var(--cream); }
+  .battle-log .lg-win{ color:var(--gold-soft); font-weight:700; }
+  .battle-log .lg-lose{ color:#e08a8a; font-weight:700; }
+
+  .battle-result{ text-align:center; margin-bottom:10px; }
+  .battle-result .result-title{
+    font-family:"Noto Serif TC",serif; font-weight:900; font-size:22px; margin:0 0 14px;
+  }
+  .result-actions{ display:flex; justify-content:center; gap:10px; }
+  .result-actions button{
+    padding:9px 22px; border-radius:999px; font-family:"Noto Sans TC",sans-serif;
+    font-size:13px; cursor:pointer; border:1px solid var(--line); background:rgba(255,255,255,0.03); color:var(--cream);
+  }
+  .result-actions button.primary{
+    background:linear-gradient(180deg,var(--gold-soft),var(--gold)); color:#241a3a; border:none; font-weight:700;
+  }
 </style>
 </head>
 <body>
@@ -156,6 +330,13 @@
     <p>依據 2026 年全球人口分布設計的獎池模擬器。<br>輪盤上是人口最多的 35 個國家,其餘 150 多個國家共同占據「其他」區塊——<br>但無論轉到哪裡,最終都會開出一個確切、真實存在的國家。</p>
   </header>
 
+  <div class="tabs">
+    <button class="tab-btn active" id="tabSpin">🎡 轉世輪盤</button>
+    <button class="tab-btn" id="tabDex">📖 圖鑑收藏</button>
+    <button class="tab-btn" id="tabBattle">⚔️ 世界之戰</button>
+  </div>
+
+  <section id="spinView">
   <div class="wheel-stage">
     <div class="wheel-pin"></div>
     <svg id="wheelSvg" viewBox="0 0 300 300">
@@ -168,6 +349,7 @@
 
   <div class="card" id="resultCard">
     <span class="tier-tag" id="tierTag">—</span>
+    <span class="new-badge" id="newBadge" style="display:none;">✨ 新卡片！</span>
     <p class="other-note" id="otherNote" style="display:none;"></p>
     <div class="flag" id="flagEl">🌍</div>
     <p class="country-name" id="nameEl">—</p>
@@ -186,6 +368,7 @@
         <div class="meta-value" id="metaGender">—</div>
       </div>
     </div>
+    <p class="own-count" id="ownCount"></p>
   </div>
 
   <p class="placeholder" id="placeholderText">點擊上方按鈕,依真實世界人口權重轉動輪盤,抽出你的下一世。</p>
@@ -200,11 +383,82 @@
     <h2>轉世紀錄</h2>
     <ul id="historyList"></ul>
   </div>
+  </section>
+
+  <section id="dexView" style="display:none;">
+    <div class="dex-summary">
+      <div class="dex-progress-ring">
+        <span id="dexPercent">0%</span>
+      </div>
+      <div class="dex-summary-text">
+        <p class="dex-count"><b id="dexCollected">0</b> / <span id="dexTotal">0</span> 已收集</p>
+        <div class="dex-bar"><div class="dex-bar-fill" id="dexBarFill"></div></div>
+        <p class="dex-hint">收集齊全部國家,見證整個世界。重複抽中會累積卡片張數。</p>
+      </div>
+    </div>
+
+    <div class="dex-tiers" id="dexTiers"></div>
+
+    <div class="dex-actions">
+      <button class="dex-reset" id="dexResetBtn">清空收藏紀錄</button>
+    </div>
+  </section>
+
+  <section id="battleView" style="display:none;">
+    <p class="battle-intro">從你收集到的國家卡片中選出 3 張,組成出戰小隊,挑戰由世界各地強權組成的關卡。<br>卡片的攻擊力／血量／速度依人口規模與稀有度換算而來 —— 人口大國血厚耐打,稀有小國攻擊犀利。</p>
+
+    <div class="mode-tabs">
+      <button class="mode-btn active" data-mode="stage">🗺️ 關卡模式</button>
+      <button class="mode-btn" data-mode="survival">♾️ 生存模式</button>
+      <button class="mode-btn" data-mode="boss">👑 首領挑戰</button>
+    </div>
+
+    <div class="stage-row" id="stageRow"></div>
+
+    <div id="deckBuilder">
+      <div class="deck-section">
+        <h2>選擇出戰卡片（<span id="pickCount">0</span> / 3）</h2>
+        <p class="deck-hint">點擊卡片以選擇／取消,需恰好選滿 3 張才能出戰。</p>
+      </div>
+      <div class="pick-grid" id="pickGrid"></div>
+      <button class="fight-btn" id="fightBtn" disabled>開始對戰 ⚔️</button>
+    </div>
+
+    <div id="battleArena" style="display:none;">
+      <div class="arena">
+        <div class="side-panel">
+          <h4>我方出戰</h4>
+          <div class="active-flag" id="pFlag">🏳️</div>
+          <div class="active-name" id="pName">—</div>
+          <div class="hp-bar"><div class="hp-bar-fill" id="pHpFill"></div></div>
+          <div class="hp-text" id="pHpText">—</div>
+          <div class="squad-icons" id="pSquadIcons"></div>
+        </div>
+        <div class="side-panel">
+          <h4>對方出戰</h4>
+          <div class="active-flag" id="eFlag">🏳️</div>
+          <div class="active-name" id="eName">—</div>
+          <div class="hp-bar"><div class="hp-bar-fill" id="eHpFill"></div></div>
+          <div class="hp-text" id="eHpText">—</div>
+          <p class="e-subtitle" id="eSubtitle"></p>
+        </div>
+      </div>
+      <div class="battle-log" id="battleLog"></div>
+      <div class="battle-result" id="battleResult" style="display:none;">
+        <p class="result-title" id="resultTitle">—</p>
+        <p class="result-desc" id="resultDesc"></p>
+        <div class="result-actions">
+          <button id="backToPickBtn">重新選卡</button>
+          <button class="primary" id="retryBtn">再挑戰一次</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer>
     人口數據為 2026 年近似估計值,依國家/地區分為東亞、南亞、東南亞、中亞、中東、北非、撒哈拉以南非洲、歐洲、北美、拉丁美洲、大洋洲等區域整理,總計約 185 個國家與地區。<br>
     「族裔背景」為粗略地理分類,僅供遊戲化呈現,無法代表個人真實血統或身分認同。「性別」欄位為模擬隨機值。<br>
-    本工具純屬娛樂與人口分布教育示意,不具任何宗教、命理或科學意涵。
+    本工具純屬娛樂與人口分布教育示意,不具任何宗教、命理或科學意涵。收藏紀錄僅儲存在你目前使用的瀏覽器中。
   </footer>
 </div>
 
@@ -371,6 +625,433 @@ const genders = [
   { label: "男性", w: 0.49 }, { label: "女性", w: 0.49 }, { label: "其他／未定", w: 0.02 },
 ];
 
+/* ---------- 收藏系統（存於瀏覽器 localStorage，僅此裝置可見）---------- */
+const STORAGE_KEY = 'reincarnation_collection_v1';
+function loadCollection(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch(e){ return {}; }
+}
+function saveCollection(col){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(col)); } catch(e){ /* 略過儲存錯誤 */ }
+}
+let collection = loadCollection();
+
+function tierRank(label){
+  return ["傳說","史詩","稀有","少見","普通"].indexOf(label);
+}
+
+function renderDex(){
+  document.getElementById('dexTotal').textContent = countries.length;
+  const collectedCodes = Object.keys(collection);
+  const collectedCount = collectedCodes.length;
+  document.getElementById('dexCollected').textContent = collectedCount;
+  const pct = Math.round(collectedCount / countries.length * 100);
+  document.getElementById('dexPercent').textContent = pct + '%';
+  document.getElementById('dexBarFill').style.width = pct + '%';
+
+  const tiersOrder = ["傳說","史詩","稀有","少見","普通"];
+  const byTier = {};
+  tiersOrder.forEach(t => byTier[t] = []);
+  countries.forEach(c => byTier[c.tier.label].push(c));
+
+  const tiersContainer = document.getElementById('dexTiers');
+  tiersContainer.innerHTML = '';
+  tiersOrder.forEach(tierLabel=>{
+    const list = byTier[tierLabel];
+    if (!list.length) return;
+    const owned = list.filter(c=>collection[c.code]).length;
+    const block = document.createElement('div');
+    block.className = 'dex-tier-block';
+    const color = list[0].tier.color;
+    block.innerHTML = `<h3><span class="dot" style="background:${color}"></span>${tierLabel}（${owned} / ${list.length}）</h3>`;
+    const grid = document.createElement('div');
+    grid.className = 'dex-grid';
+    list.forEach(c=>{
+      const owned = collection[c.code];
+      const cardEl = document.createElement('div');
+      cardEl.className = 'dex-card ' + (owned ? 'unlocked' : 'locked');
+      if (owned) cardEl.style.borderColor = color;
+      cardEl.innerHTML = `
+        <div class="df">${owned ? c.flag : '❔'}</div>
+        <div class="dn">${owned ? c.name : '？？？'}</div>
+        ${owned && owned.count > 1 ? `<span class="dcount">×${owned.count}</span>` : ''}
+      `;
+      grid.appendChild(cardEl);
+    });
+    block.appendChild(grid);
+    tiersContainer.appendChild(block);
+  });
+}
+
+/* ---------- 分頁切換 ---------- */
+const tabSpin = document.getElementById('tabSpin');
+const tabDex = document.getElementById('tabDex');
+const tabBattle = document.getElementById('tabBattle');
+const spinView = document.getElementById('spinView');
+const dexView = document.getElementById('dexView');
+const battleView = document.getElementById('battleView');
+
+function activateTab(tab){
+  [tabSpin,tabDex,tabBattle].forEach(t=>t.classList.remove('active'));
+  [spinView,dexView,battleView].forEach(v=>v.style.display='none');
+  tab.classList.add('active');
+}
+tabSpin.addEventListener('click', ()=>{ activateTab(tabSpin); spinView.style.display=''; });
+tabDex.addEventListener('click', ()=>{ activateTab(tabDex); dexView.style.display=''; renderDex(); });
+tabBattle.addEventListener('click', ()=>{ activateTab(tabBattle); battleView.style.display=''; initBattleView(); });
+
+document.getElementById('dexResetBtn').addEventListener('click', ()=>{
+  if (confirm('確定要清空所有收藏紀錄嗎？此動作無法復原。')){
+    collection = {};
+    saveCollection(collection);
+    renderDex();
+  }
+});
+renderDex();
+
+/* ---------- 世界之戰：PvE 卡牌對戰系統 ---------- */
+const BATTLE_KEY = 'reincarnation_battle_v1';
+function loadBattleProgress(){
+  try{ const raw = localStorage.getItem(BATTLE_KEY); return raw ? JSON.parse(raw) : {maxStage:1}; }
+  catch(e){ return {maxStage:1}; }
+}
+function saveBattleProgress(p){
+  try{ localStorage.setItem(BATTLE_KEY, JSON.stringify(p)); }catch(e){}
+}
+let battleProgress = loadBattleProgress();
+
+const STAGES = [
+  { id:1, name:"鄰國小衝突", tiers:["普通"] },
+  { id:2, name:"區域強權賽", tiers:["普通","少見"] },
+  { id:3, name:"大國角力場", tiers:["少見","稀有"] },
+  { id:4, name:"精銳特遣隊", tiers:["稀有","史詩"] },
+  { id:5, name:"傳說之戰", tiers:["史詩","傳說"] },
+];
+
+// 依人口規模與稀有度換算戰鬥數值：人口越多血量越厚,越稀有攻擊與速度越高
+function computeStats(country){
+  const hp = Math.max(30, Math.min(100, Math.round(28 + Math.log10(country.pop*1e6+1)*7)));
+  const rank = tierRank(country.tier.label); // 0=傳說...4=普通
+  const atk = Math.round(12 + (4-rank)*6 + (Math.random()*4-2));
+  const def = Math.round(4 + rank*2 + (Math.random()*2-1));
+  const spd = Math.round(45 + (4-rank)*9 + (Math.random()*6-3));
+  return { hp, maxHp:hp, atk:Math.max(6,atk), def:Math.max(2,def), spd:Math.max(10,spd) };
+}
+
+const BOSSES = [
+  { id:1, name:"人口洪流．銅之考驗", mult:{hp:2.6, atk:1.15, def:1.1, spd:1}, poolTiers:["普通","少見"] },
+  { id:2, name:"稀世強權．銀之考驗", mult:{hp:3.4, atk:1.4, def:1.3, spd:1.15}, poolTiers:["稀有","史詩"] },
+  { id:3, name:"輪迴終焉．金之考驗", mult:{hp:4.2, atk:1.7, def:1.5, spd:1.3}, poolTiers:["史詩","傳說"] },
+];
+
+const BOSS_KEY = 'reincarnation_boss_v1';
+function loadBossProgress(){
+  try{ const raw = localStorage.getItem(BOSS_KEY); return raw ? JSON.parse(raw) : {maxBoss:1}; }
+  catch(e){ return {maxBoss:1}; }
+}
+function saveBossProgress(p){ try{ localStorage.setItem(BOSS_KEY, JSON.stringify(p)); }catch(e){} }
+let bossProgress = loadBossProgress();
+
+const SURVIVAL_KEY = 'reincarnation_survival_v1';
+function loadSurvivalBest(){
+  try{ const raw = localStorage.getItem(SURVIVAL_KEY); return raw ? JSON.parse(raw) : {bestWave:0}; }
+  catch(e){ return {bestWave:0}; }
+}
+function saveSurvivalBest(p){ try{ localStorage.setItem(SURVIVAL_KEY, JSON.stringify(p)); }catch(e){} }
+let survivalBest = loadSurvivalBest();
+
+let currentMode = 'stage'; // 'stage' | 'survival' | 'boss'
+let selectedStageId = null;
+let selectedBossId = null;
+let pickedCodes = [];
+let battleState = null;
+
+function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function makeEnemyFromCountry(country, mult){
+  const base = computeStats(country);
+  mult = mult || {hp:1, atk:1, def:1, spd:1};
+  const hp = Math.max(1, Math.round(base.hp*mult.hp));
+  return {
+    country, hp, maxHp:hp,
+    atk: Math.max(1, Math.round(base.atk*mult.atk)),
+    def: Math.max(0, Math.round(base.def*mult.def)),
+    spd: Math.max(1, Math.round(base.spd*mult.spd)),
+  };
+}
+
+function initBattleView(){
+  if (selectedStageId === null) selectedStageId = battleProgress.maxStage;
+  if (selectedBossId === null) selectedBossId = bossProgress.maxBoss;
+  document.querySelectorAll('.mode-btn').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.mode === currentMode);
+  });
+  renderModeSelector();
+  renderPickGrid();
+  document.getElementById('deckBuilder').style.display = '';
+  document.getElementById('battleArena').style.display = 'none';
+}
+
+document.querySelectorAll('.mode-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    currentMode = btn.dataset.mode;
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active', b===btn));
+    renderModeSelector();
+  });
+});
+
+function renderModeSelector(){
+  const row = document.getElementById('stageRow');
+  row.innerHTML = '';
+  if (currentMode === 'stage'){
+    STAGES.forEach(stage=>{
+      const unlocked = stage.id <= battleProgress.maxStage;
+      const btn = document.createElement('button');
+      btn.className = 'stage-btn ' + (unlocked ? 'unlocked' : 'locked') + (stage.id===selectedStageId ? ' selected' : '');
+      btn.innerHTML = `${stage.id}<small>${stage.name}</small>`;
+      btn.disabled = !unlocked;
+      btn.addEventListener('click', ()=>{ selectedStageId = stage.id; renderModeSelector(); });
+      row.appendChild(btn);
+    });
+  } else if (currentMode === 'boss'){
+    BOSSES.forEach(boss=>{
+      const unlocked = boss.id <= bossProgress.maxBoss;
+      const btn = document.createElement('button');
+      btn.className = 'stage-btn ' + (unlocked ? 'unlocked' : 'locked') + (boss.id===selectedBossId ? ' selected' : '');
+      btn.innerHTML = `👑${boss.id}<small>${boss.name}</small>`;
+      btn.disabled = !unlocked;
+      btn.addEventListener('click', ()=>{ selectedBossId = boss.id; renderModeSelector(); });
+      row.appendChild(btn);
+    });
+  } else {
+    const info = document.createElement('p');
+    info.className = 'battle-intro';
+    info.style.margin = '0 0 4px';
+    info.innerHTML = `♾️ 無限波次生存挑戰 —— 血量不會在波次間恢復,盡可能撐過越多波敵人！<br>目前最佳紀錄：<b style="color:var(--gold-soft)">${survivalBest.bestWave} 波</b>`;
+    row.appendChild(info);
+  }
+}
+
+function renderPickGrid(){
+  const grid = document.getElementById('pickGrid');
+  grid.innerHTML = '';
+  const ownedCodes = Object.keys(collection);
+  if (!ownedCodes.length){
+    grid.innerHTML = '<p class="empty-note">你還沒有收集到任何國家卡片,先去「轉世輪盤」抽幾張吧！</p>';
+    document.getElementById('fightBtn').disabled = true;
+    return;
+  }
+  ownedCodes.forEach(code=>{
+    const country = countries.find(c=>c.code===code);
+    if (!country) return;
+    const card = document.createElement('div');
+    card.className = 'pick-card' + (pickedCodes.includes(code) ? ' chosen' : '');
+    card.innerHTML = `
+      <div class="pf">${country.flag}</div>
+      <div class="pn">${country.name}</div>
+      <div class="ps">×${collection[code].count}</div>
+    `;
+    card.addEventListener('click', ()=>{
+      const idx = pickedCodes.indexOf(code);
+      if (idx >= 0){ pickedCodes.splice(idx,1); }
+      else { if (pickedCodes.length >= 3) return; pickedCodes.push(code); }
+      renderPickGrid();
+    });
+    grid.appendChild(card);
+  });
+  document.getElementById('pickCount').textContent = pickedCodes.length;
+  document.getElementById('fightBtn').disabled = pickedCodes.length !== 3;
+}
+
+document.getElementById('fightBtn').addEventListener('click', startBattle);
+document.getElementById('backToPickBtn').addEventListener('click', ()=>{
+  document.getElementById('battleArena').style.display = 'none';
+  document.getElementById('deckBuilder').style.display = '';
+  document.getElementById('battleResult').style.display = 'none';
+});
+document.getElementById('retryBtn').addEventListener('click', startBattle);
+
+function buildEnemySquad(stage){
+  const pool = countries.filter(c => stage.tiers.includes(c.tier.label));
+  const shuffled = [...pool].sort(()=>Math.random()-0.5);
+  return shuffled.slice(0,3).map(c => makeEnemyFromCountry(c));
+}
+
+function startBattle(){
+  const playerSquad = pickedCodes.map(code=>{
+    const country = countries.find(c=>c.code===code);
+    return makeEnemyFromCountry(country);
+  });
+
+  let enemyProvider, modeMeta;
+
+  if (currentMode === 'stage'){
+    const stage = STAGES.find(s=>s.id===selectedStageId);
+    const list = buildEnemySquad(stage);
+    let idx = 0;
+    enemyProvider = () => idx < list.length ? list[idx++] : null;
+    modeMeta = { mode:'stage', stage };
+  } else if (currentMode === 'boss'){
+    const boss = BOSSES.find(b=>b.id===selectedBossId);
+    const pool = countries.filter(c=>boss.poolTiers.includes(c.tier.label));
+    const bossCountry = pickRandom(pool);
+    let used = false;
+    enemyProvider = () => { if (used) return null; used = true; return makeEnemyFromCountry(bossCountry, boss.mult); };
+    modeMeta = { mode:'boss', boss };
+  } else {
+    let wave = 0;
+    const tierPools = ["普通","少見","稀有","史詩","傳說"];
+    enemyProvider = () => {
+      wave++;
+      const tierIdx = Math.min(tierPools.length-1, Math.floor((wave-1)/3));
+      const pool = countries.filter(c=>c.tier.label===tierPools[tierIdx]);
+      return makeEnemyFromCountry(pickRandom(pool));
+    };
+    modeMeta = { mode:'survival' };
+  }
+
+  document.getElementById('deckBuilder').style.display = 'none';
+  document.getElementById('battleArena').style.display = '';
+  document.getElementById('battleResult').style.display = 'none';
+  document.getElementById('battleLog').innerHTML = '';
+
+  battleState = { p: playerSquad, pIdx:0, enemyProvider, currentEnemy:null, wavesCleared:0, modeMeta };
+  battleState.currentEnemy = enemyProvider();
+  renderBattleUI();
+  setTimeout(battleStep, 500);
+}
+
+function renderBattleUI(){
+  const s = battleState;
+  const pc = s.p[s.pIdx];
+  const ec = s.currentEnemy;
+  if (pc){
+    document.getElementById('pFlag').textContent = pc.country.flag;
+    document.getElementById('pName').textContent = pc.country.name;
+    const pPct = Math.max(0,pc.hp/pc.maxHp*100);
+    const pFill = document.getElementById('pHpFill');
+    pFill.style.width = pPct+'%'; pFill.classList.toggle('low', pPct<30);
+    document.getElementById('pHpText').textContent = `${Math.max(0,pc.hp)} / ${pc.maxHp}`;
+  }
+  if (ec){
+    document.getElementById('eFlag').textContent = ec.country.flag;
+    document.getElementById('eName').textContent = ec.country.name;
+    const ePct = Math.max(0,ec.hp/ec.maxHp*100);
+    const eFill = document.getElementById('eHpFill');
+    eFill.style.width = ePct+'%'; eFill.classList.toggle('low', ePct<30);
+    document.getElementById('eHpText').textContent = `${Math.max(0,ec.hp)} / ${ec.maxHp}`;
+  }
+  document.getElementById('pSquadIcons').innerHTML = s.p.map((c,i)=>`<span class="${i<s.pIdx?'down':''}">${c.country.flag}</span>`).join('');
+
+  const eSubtitle = document.getElementById('eSubtitle');
+  if (s.modeMeta.mode === 'stage') eSubtitle.textContent = `「${s.modeMeta.stage.name}」關卡守軍`;
+  else if (s.modeMeta.mode === 'boss') eSubtitle.textContent = `首領挑戰：${s.modeMeta.boss.name}`;
+  else eSubtitle.textContent = `生存模式 · 第 ${s.wavesCleared+1} 波`;
+}
+
+function battleStep(){
+  const s = battleState;
+  const log = document.getElementById('battleLog');
+  const pc = s.p[s.pIdx];
+  const ec = s.currentEnemy;
+
+  if (!pc){ finishBattle(false); return; }
+  if (!ec){ finishBattle(true); return; }
+
+  const order = pc.spd >= ec.spd ? ['p','e'] : ['e','p'];
+  for (const side of order){
+    if (pc.hp<=0 || ec.hp<=0) break;
+    if (side === 'p'){
+      const dmg = Math.max(1, Math.round(pc.atk - ec.def*0.5 + (Math.random()*6-3)));
+      ec.hp = Math.max(0, ec.hp - dmg);
+      const line = document.createElement('div'); line.className='lg-hit';
+      line.textContent = `我方的 ${pc.country.name} 對 ${ec.country.name} 造成 ${dmg} 點傷害！`;
+      log.appendChild(line);
+    } else {
+      const dmg = Math.max(1, Math.round(ec.atk - pc.def*0.5 + (Math.random()*6-3)));
+      pc.hp = Math.max(0, pc.hp - dmg);
+      const line = document.createElement('div'); line.className='lg-hit';
+      line.textContent = `對方的 ${ec.country.name} 對 ${pc.country.name} 造成 ${dmg} 點傷害！`;
+      log.appendChild(line);
+    }
+  }
+  renderBattleUI();
+  log.scrollTop = log.scrollHeight;
+
+  let delay = 750;
+  if (ec.hp <= 0){
+    const line = document.createElement('div');
+    line.textContent = `💥 ${ec.country.name} 已被擊倒！`;
+    log.appendChild(line);
+    s.wavesCleared++;
+    s.currentEnemy = s.enemyProvider();
+    delay = 550;
+  }
+  if (pc.hp <= 0){
+    const line = document.createElement('div');
+    line.textContent = `💥 我方的 ${pc.country.name} 已被擊倒！`;
+    log.appendChild(line);
+    s.pIdx++;
+    delay = 550;
+  }
+  log.scrollTop = log.scrollHeight;
+
+  if (!s.p[s.pIdx]){ setTimeout(()=>finishBattle(false), 500); return; }
+  if (!s.currentEnemy){ setTimeout(()=>finishBattle(true), 500); return; }
+
+  setTimeout(battleStep, delay);
+}
+
+function finishBattle(win){
+  const s = battleState;
+  const resultBox = document.getElementById('battleResult');
+  const title = document.getElementById('resultTitle');
+  const desc = document.getElementById('resultDesc');
+  resultBox.style.display = 'block';
+
+  if (s.modeMeta.mode === 'stage'){
+    const stage = s.modeMeta.stage;
+    if (win){
+      title.textContent = '🏆 勝利！'; title.style.color = 'var(--gold-soft)';
+      desc.textContent = `你成功攻略了「${stage.name}」。`;
+      if (stage.id === battleProgress.maxStage && stage.id < STAGES.length){
+        battleProgress.maxStage = stage.id + 1;
+        saveBattleProgress(battleProgress);
+        desc.textContent += ' 已解鎖下一關卡！';
+      }
+    } else {
+      title.textContent = '💀 落敗了'; title.style.color = '#e08a8a';
+      desc.textContent = `「${stage.name}」的守軍太強大了,再試一次吧！`;
+    }
+  } else if (s.modeMeta.mode === 'boss'){
+    const boss = s.modeMeta.boss;
+    if (win){
+      title.textContent = '🏆 首領已擊破！'; title.style.color = 'var(--gold-soft)';
+      desc.textContent = `你擊敗了「${boss.name}」。`;
+      if (boss.id === bossProgress.maxBoss && boss.id < BOSSES.length){
+        bossProgress.maxBoss = boss.id + 1;
+        saveBossProgress(bossProgress);
+        desc.textContent += ' 已解鎖下一位首領！';
+      }
+    } else {
+      title.textContent = '💀 首領太強了'; title.style.color = '#e08a8a';
+      desc.textContent = `「${boss.name}」擊潰了你的隊伍,再挑戰一次吧！`;
+    }
+  } else {
+    title.textContent = '💀 隊伍已全滅'; title.style.color = '#e08a8a';
+    const cleared = s.wavesCleared;
+    let newRecord = false;
+    if (cleared > survivalBest.bestWave){ survivalBest.bestWave = cleared; saveSurvivalBest(survivalBest); newRecord = true; }
+    desc.textContent = `你撐過了 ${cleared} 波敵人。` + (newRecord ? ' 🎉 創下新紀錄！' : ` 目前最佳紀錄：${survivalBest.bestWave} 波`);
+  }
+
+  renderModeSelector();
+}
+
+
+
 function weightedPick(items, weightFn){
   const total = items.reduce((s,i)=>s+weightFn(i),0);
   let r = Math.random() * total;
@@ -393,6 +1074,8 @@ let currentRotation = 0;
 spinBtn.addEventListener('click', () => {
   spinBtn.disabled = true;
   card.classList.remove('show');
+  document.getElementById('newBadge').style.display = 'none';
+  document.getElementById('ownCount').textContent = '';
   hub.textContent = '🎡';
   spinCount += 1;
 
@@ -426,6 +1109,20 @@ function revealResult(country, gender, wasOtherSlice){
   document.getElementById('metaRace').textContent = country.race;
   document.getElementById('metaGender').textContent = gender.label;
 
+  // 更新收藏紀錄
+  const isNew = !collection[country.code];
+  if (isNew){
+    collection[country.code] = { count: 1, firstAt: Date.now() };
+  } else {
+    collection[country.code].count += 1;
+  }
+  saveCollection(collection);
+
+  const newBadge = document.getElementById('newBadge');
+  newBadge.style.display = isNew ? 'inline-block' : 'none';
+  document.getElementById('ownCount').textContent =
+    isNew ? '這是你第一次抽到這個國家！' : `你目前擁有 ${collection[country.code].count} 張這個國家的卡片`;
+
   const otherNote = document.getElementById('otherNote');
   if (wasOtherSlice){
     otherNote.style.display = 'block';
@@ -448,6 +1145,8 @@ function revealResult(country, gender, wasOtherSlice){
     <span class="htier" style="background:color-mix(in srgb, ${country.tier.color} 22%, transparent); color:${country.tier.color}; border:1px solid ${country.tier.color};">${country.prob.toFixed(3)}%</span>`;
   historyList.prepend(li);
   while (historyList.children.length > 8) historyList.removeChild(historyList.lastChild);
+
+  if (dexView.style.display !== 'none') renderDex();
 }
 </script>
 </body>
