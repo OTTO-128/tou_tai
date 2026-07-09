@@ -55,8 +55,8 @@
   header p{ color:var(--muted); font-size:14px; margin:0; line-height:1.7; }
 
   .wheel-stage{ position:relative; width:300px; height:300px; margin:30px auto 10px; }
+  .wheel-spin{ width:100%; height:100%; transform-origin:50% 50%; }
   #wheelSvg{ width:100%; height:100%; display:block; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.45)); }
-  #wheelGroup{ transform-origin:150px 150px; }
   .wheel-hub{
     position:absolute; top:50%; left:50%; width:64px; height:64px;
     transform:translate(-50%,-50%); border-radius:50%;
@@ -327,7 +327,7 @@
   <header>
     <div class="eyebrow">Reincarnation Draw · 2026 世界人口權重</div>
     <h1>輪迴之門</h1>
-    <p>依據 2026 年全球人口分布設計的獎池模擬器。<br>輪盤上是人口最多的 35 個國家,其餘 150 多個國家共同占據「其他」區塊——<br>但無論轉到哪裡,最終都會開出一個確切、真實存在的國家。</p>
+    <p>依據 2026 年全球人口分布設計的獎池模擬器。<br>輪盤上每一國都有自己專屬的位置——人口前 35 名佔主要面積並標有旗幟,其餘國家依人口比例排在外側精細帶狀區。<br>指針停在哪裡,下面顯示的就是那個確切的國家,兩者保證一致。</p>
   </header>
 
   <div class="tabs">
@@ -339,9 +339,11 @@
   <section id="spinView">
   <div class="wheel-stage">
     <div class="wheel-pin"></div>
-    <svg id="wheelSvg" viewBox="0 0 300 300">
-      <g id="wheelGroup"></g>
-    </svg>
+    <div class="wheel-spin" id="wheelSpin">
+      <svg id="wheelSvg" viewBox="0 0 300 300">
+        <g id="wheelGroup"></g>
+      </svg>
+    </div>
     <div class="wheel-hub" id="wheelHub">🌍</div>
   </div>
 
@@ -350,7 +352,6 @@
   <div class="card" id="resultCard">
     <span class="tier-tag" id="tierTag">—</span>
     <span class="new-badge" id="newBadge" style="display:none;">✨ 新卡片！</span>
-    <p class="other-note" id="otherNote" style="display:none;"></p>
     <div class="flag" id="flagEl">🌍</div>
     <p class="country-name" id="nameEl">—</p>
     <p class="prob-line" id="probEl">—</p>
@@ -375,7 +376,7 @@
 
   <div class="legend">
     <h2>輪盤區塊(人口前 35 名國家)</h2>
-    <p class="legend-note">灰色「其他」區塊代表其餘約 150 個國家的總和機率;轉到該區塊時,系統會再從中隨機開出一個確切國名。</p>
+    <p class="legend-note">灰色那一格看起來跟其他國家一樣大,但其實是其餘約 150 個國家共同擠在同樣大小的空間裡——每個國家依然是獨立、真實的區塊,不是共用同一個結果,轉到哪一個小小的切片,開出的就是那個國家。</p>
     <div class="legend-grid" id="legendGrid"></div>
   </div>
 
@@ -569,13 +570,31 @@ function tierOf(prob){
 }
 countries.forEach(c => { c.tier = tierOf(c.prob); });
 
+// 每個國家都分配到「自己專屬」的扇形角度,不再有多國共用的「其他」區塊——
+// 人口前 35 名佔輪盤主要面積並附上旗幟標籤,其餘國家依真實人口比例分配到一條精細帶狀區,
+// 但每一格仍是獨立、可被精準指到的真實國家,轉盤停在哪裡,結果就一定是那裡。
 const sortedByPop = [...countries].sort((a,b)=>b.pop-a.pop);
-const wheelCountries = sortedByPop.slice(0,35);
-const wheelSet = new Set(wheelCountries.map(c=>c.code));
-const otherPool = countries.filter(c => !wheelSet.has(c.code));
+const TOP_COUNT = 35;
+const bigGroup = sortedByPop.slice(0, TOP_COUNT);
+const smallGroup = sortedByPop.slice(TOP_COUNT);
+const BIG_TOTAL_ANGLE = 350;
+const SMALL_TOTAL_ANGLE = 10;
 
-const NUM_SEG = wheelCountries.length + 1;
-const ANGLE = 360 / NUM_SEG;
+let _cursor = 0;
+const bigAngle = BIG_TOTAL_ANGLE / bigGroup.length;
+bigGroup.forEach(c=>{
+  c._angleStart = _cursor; c._angleSpan = bigAngle; _cursor += bigAngle; c._angleEnd = _cursor; c._big = true;
+});
+const smallTotalPop = smallGroup.reduce((s,c)=>s+c.pop,0);
+smallGroup.forEach(c=>{
+  const span = smallTotalPop > 0 ? Math.max((c.pop/smallTotalPop)*SMALL_TOTAL_ANGLE, 0.01) : 0.01;
+  c._angleStart = _cursor; c._angleSpan = span; _cursor += span; c._angleEnd = _cursor; c._big = false;
+});
+// 正規化,修正極小國家的最小角度保底所造成的總和誤差,確保精確等於 360 度
+const _scale = 360 / _cursor;
+[...bigGroup, ...smallGroup].forEach(c=>{ c._angleStart*=_scale; c._angleEnd*=_scale; c._angleSpan*=_scale; });
+
+const wheelDrawOrder = [...bigGroup, ...smallGroup];
 
 function toXY(angleDeg, r){
   const rad = (angleDeg - 90) * Math.PI/180;
@@ -584,33 +603,39 @@ function toXY(angleDeg, r){
 
 const svgNS = "http://www.w3.org/2000/svg";
 const group = document.getElementById('wheelGroup');
+const wheelSpin = document.getElementById('wheelSpin');
 const R = 145;
 
-for (let i=0;i<NUM_SEG;i++){
-  const start = i*ANGLE, end = (i+1)*ANGLE, mid = start + ANGLE/2;
+wheelDrawOrder.forEach((c,i)=>{
+  const start = c._angleStart, end = c._angleEnd, mid = start + c._angleSpan/2;
   const [x1,y1] = toXY(start,R);
   const [x2,y2] = toXY(end,R);
-  const isOther = (i === NUM_SEG-1);
+  const largeArc = c._angleSpan > 180 ? 1 : 0;
   const path = document.createElementNS(svgNS,"path");
-  path.setAttribute("d", `M150,150 L${x1},${y1} A${R},${R} 0 0,1 ${x2},${y2} Z`);
-  path.setAttribute("fill", isOther ? "var(--slice-other)" : (i%2===0 ? "var(--slice-a)" : "var(--slice-b)"));
+  path.setAttribute("d", `M150,150 L${x1},${y1} A${R},${R} 0 ${largeArc},1 ${x2},${y2} Z`);
+  path.setAttribute("fill", c._big ? (i%2===0 ? "var(--slice-a)" : "var(--slice-b)") : "var(--slice-other)");
   path.setAttribute("stroke", "#171225");
-  path.setAttribute("stroke-width", "1");
+  path.setAttribute("stroke-width", c._big ? "1" : "0.4");
+  const titleEl = document.createElementNS(svgNS,"title");
+  titleEl.textContent = `${c.name}（${c.prob.toFixed(3)}%）`;
+  path.appendChild(titleEl);
   group.appendChild(path);
 
-  const [tx,ty] = toXY(mid, R*0.78);
-  const label = document.createElementNS(svgNS,"text");
-  label.setAttribute("x", tx); label.setAttribute("y", ty);
-  label.setAttribute("text-anchor","middle");
-  label.setAttribute("dominant-baseline","middle");
-  label.setAttribute("class","slice-text");
-  label.setAttribute("transform", `rotate(${mid},${tx},${ty})`);
-  label.textContent = isOther ? "🌐" : wheelCountries[i].flag;
-  group.appendChild(label);
-}
+  if (c._angleSpan >= 3){
+    const [tx,ty] = toXY(mid, R*0.78);
+    const label = document.createElementNS(svgNS,"text");
+    label.setAttribute("x", tx); label.setAttribute("y", ty);
+    label.setAttribute("text-anchor","middle");
+    label.setAttribute("dominant-baseline","middle");
+    label.setAttribute("class","slice-text");
+    label.setAttribute("transform", `rotate(${mid},${tx},${ty})`);
+    label.textContent = c.flag;
+    group.appendChild(label);
+  }
+});
 
 const legendGrid = document.getElementById('legendGrid');
-wheelCountries.forEach(c=>{
+bigGroup.forEach(c=>{
   const div = document.createElement('div');
   div.className='legend-item';
   div.innerHTML = `<span class="lf">${c.flag}</span><span>${c.name}</span>`;
@@ -618,7 +643,7 @@ wheelCountries.forEach(c=>{
 });
 const otherDiv = document.createElement('div');
 otherDiv.className='legend-item';
-otherDiv.innerHTML = `<span class="lf">🌐</span><span>其他 ${otherPool.length} 國</span>`;
+otherDiv.innerHTML = `<span class="lf">🌐</span><span>另外 ${smallGroup.length} 國（各自獨立）</span>`;
 legendGrid.appendChild(otherDiv);
 
 const genders = [
@@ -1069,7 +1094,27 @@ const historyList = document.getElementById('historyList');
 const hub = document.getElementById('wheelHub');
 
 let spinCount = 0;
-let currentRotation = 0;
+let wheelRotation = 0; // 目前實際套用在輪盤上的絕對旋轉角度（旋轉的是包住 SVG 的純 HTML div,軸心保證是正中央）
+
+function animateWheelTo(targetDeg, duration, onComplete){
+  const startDeg = wheelRotation;
+  const delta = targetDeg - startDeg;
+  const startTime = performance.now();
+  function frame(now){
+    const t = Math.min(1, (now - startTime) / duration);
+    const eased = 1 - Math.pow(1 - t, 4); // ease-out,先快後慢
+    const current = startDeg + delta * eased;
+    wheelSpin.style.transform = `rotate(${current}deg)`;
+    if (t < 1){
+      requestAnimationFrame(frame);
+    } else {
+      wheelRotation = targetDeg;
+      wheelSpin.style.transform = `rotate(${targetDeg}deg)`;
+      if (onComplete) onComplete();
+    }
+  }
+  requestAnimationFrame(frame);
+}
 
 spinBtn.addEventListener('click', () => {
   spinBtn.disabled = true;
@@ -1082,25 +1127,23 @@ spinBtn.addEventListener('click', () => {
   const picked = weightedPick(countries, c => c.pop);
   const gender = weightedPick(genders, g => g.w);
 
-  let segIndex = wheelCountries.findIndex(c => c.code === picked.code);
-  if (segIndex === -1) segIndex = NUM_SEG - 1;
+  // picked 這個國家本身就有專屬扇形,直接對準它的中心角度,不需要任何猜測或轉換。
+  // 目標：旋轉結束後,這個中心角度要落在指針所在的正上方(0 度)。
+  const segCenter = picked._angleStart + picked._angleSpan/2;
+  const desiredMod = ((360 - segCenter) % 360 + 360) % 360;
+  const currentMod = ((wheelRotation % 360) + 360) % 360;
+  let forwardDiff = desiredMod - currentMod;
+  if (forwardDiff <= 0) forwardDiff += 360; // 確保每次都是往前多轉,不會反彈
+  const targetRotation = wheelRotation + forwardDiff + 6*360; // 額外轉 6 圈增加轉動感
 
-  const segCenter = segIndex*ANGLE + ANGLE/2;
-  const extraSpins = 6*360;
-  const targetRotation = extraSpins + (360 - segCenter);
-  currentRotation += targetRotation;
-
-  group.style.transition = 'transform 4s cubic-bezier(.14,.83,.14,1)';
-  group.style.transform = `rotate(${currentRotation}deg)`;
-
-  setTimeout(() => {
+  animateWheelTo(targetRotation, 4000, () => {
     hub.textContent = picked.flag;
-    revealResult(picked, gender, segIndex === NUM_SEG-1);
+    revealResult(picked, gender);
     spinBtn.disabled = false;
-  }, 4100);
+  });
 });
 
-function revealResult(country, gender, wasOtherSlice){
+function revealResult(country, gender){
   document.getElementById('flagEl').textContent = country.flag;
   document.getElementById('nameEl').textContent = country.name;
   document.getElementById('probEl').innerHTML =
@@ -1122,14 +1165,6 @@ function revealResult(country, gender, wasOtherSlice){
   newBadge.style.display = isNew ? 'inline-block' : 'none';
   document.getElementById('ownCount').textContent =
     isNew ? '這是你第一次抽到這個國家！' : `你目前擁有 ${collection[country.code].count} 張這個國家的卡片`;
-
-  const otherNote = document.getElementById('otherNote');
-  if (wasOtherSlice){
-    otherNote.style.display = 'block';
-    otherNote.textContent = `輪盤落在「其他 ${otherPool.length} 國」區塊,並從中隨機開出這個國家 →`;
-  } else {
-    otherNote.style.display = 'none';
-  }
 
   const tag = document.getElementById('tierTag');
   tag.textContent = country.tier.label;
